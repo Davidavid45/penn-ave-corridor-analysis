@@ -1,0 +1,7 @@
+route_name,role,confirmed_lanes,routeid,n_segments,avg_aadt,max_aadt,daily_capacity_est,utilization_pct,spare_capacity,notes,post_diversion_aadt,post_diversion_util_pct
+Pennsylvania Ave NW (impact zone),study_corridor,6,11069812,13,10286.0,10568.0,48000,21.4,37714.0,Current 6-lane configuration; lane removal proposal would reduce to 4 or 5,,
+K St NW,parallel_north,4,11050892,8,21710.0,23366.0,32000,67.8,10290.0,Major east-west arterial ~0.4km north of Penn Ave; primary diversion candidate,22888.0,71.5
+I St NW,parallel_north,2,11047772,12,8149.0,10932.0,16000,50.9,7851.0,Minor street between Penn Ave and K St; limited capacity,9048.0,56.6
+H St NW,parallel_south,3,11042442,20,8329.0,13247.0,24000,34.7,15671.0,One block south of Penn Ave; moderate capacity,10124.0,42.2
+Virginia Ave NW,parallel_diagonal,4,spatial_filter,83,15316.0,31267.0,32000,47.9,16684.0,Diagonal parallel to Penn Ave; serves Foggy Bottom–GWU area,17227.0,53.8
+Constitution Ave NW,parallel_south,6,11025352,13,28644.0,28644.0,48000,59.7,19356.0,Federal highway ~0.5km south; high capacity but serves different trip patterns,30861.0,64.3

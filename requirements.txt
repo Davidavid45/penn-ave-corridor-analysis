@@ -1,0 +1,10 @@
+geopandas>=0.14
+pandas>=2.0
+osmnx>=1.9
+requests>=2.31
+shapely>=2.0
+matplotlib>=3.8
+folium>=0.15
+pyyaml>=6.0
+jupyter>=1.0
+numpy>=1.24

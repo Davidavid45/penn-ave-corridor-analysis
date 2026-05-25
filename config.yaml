@@ -1,0 +1,69 @@
+corridor:
+  name: "Pennsylvania Avenue NW"
+  city: "Washington, D.C."
+  osm_filter: "Pennsylvania Avenue Northwest"
+  buffer_meters: 100
+
+  # Impact zone: the active DDOT Pennsylvania Avenue West Streetscape Project.
+  # Source: https://ddot.dc.gov/event/pennsylvania-avenue-west-streetscape-project-public-meeting
+  # Construction began July 21, 2025; estimated completion 2027. Ward 2.
+  # Official scope: Washington Circle (~24th St NW) east to 17th St NW.
+  # Our bounding box captures 17th–22nd St NW, the core reconfiguration segment.
+
+  impact_zone:
+    name: "Penn Ave West Streetscape Project (17th–22nd St NW)"
+    min_lon: -77.0507   # ~22nd St NW
+    min_lat:  38.8975   # Penn Ave runs 38.8987–38.9029 in this stretch
+    max_lon: -77.0367   # ~17th St NW
+    max_lat:  38.9040   # provides buffer above Penn Ave centerline
+
+analysis:
+  crash_start_date: "2020-01-01"
+  segment_length_miles: 0.25
+  peak_am_start: "07:00:00"
+  peak_am_end: "09:00:00"
+  peak_pm_start: "16:00:00"
+  peak_pm_end: "19:00:00"
+  walkable_buffer_meters: 400
+
+data_sources:
+  # Confirmed working as of May 2026. DC reorganized their ArcGIS services —
+  # if a URL breaks in future, browse the service catalog at:
+  # https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/
+
+  # Crashes: Public Safety service, layer 24 (Vehicular Crash Data)
+  # Fields confirmed: REPORTDATE, FATAL_DRIVER, FATAL_BICYCLIST, FATAL_PEDESTRIAN,
+  #   MAJORINJURIES_*, LATITUDE, LONGITUDE, WARD, SPEEDING_INVOLVED
+  crashes_api: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Public_Safety_WebMercator/MapServer/24/query"
+
+  # Vision Zero safety reports submitted by residents
+  # Hosted under the DDOT FeatureServer (not the main DCGIS_DATA MapServer)
+  # Fields confirmed: REQUESTID, USERTYPE, REQUESTTYPE, REQUESTDATE, LATITUDE, LONGITUDE
+  vision_zero_api: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DDOT/VisionZero/FeatureServer/0/query"
+
+  # Bike Lanes: Transportation Bikes & Trails service, layer 2
+  # Fields: ROUTEID, ROUTENAME, ROADTYPE, BIKELANE_PARKINGLANE_ADJACENT,
+  #   BIKELANE_THROUGHLANE_ADJACENT (use these to classify protected vs. unprotected)
+  bike_lanes_api: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_Bikes_Trails_WebMercator/MapServer/2/query"
+
+  # Street centerlines: Transportation service, layer 38 (Major Roads)
+  # Filter field is ROUTENAME (e.g. "PENNSYLVANIA AVE NW"), not STREETNAME
+  street_centerlines_api: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_WebMercator/MapServer/38/query"
+
+  # WMATA GTFS: public mirror hosted by MobilityDatabase (no API key required)
+  # Source: https://database.mobilitydata.org — feed ID 1846 (WMATA Bus)
+  # Verified: 37.9 MB ZIP containing stops.txt, stop_times.txt, trips.txt, routes.txt
+  # Note: this is a cached snapshot; for real-time updates use api.wmata.com (API key required)
+  gtfs_url: "https://storage.googleapis.com/storage/v1/b/mdb-latest/o/us-district-of-columbia-washington-wmata-gtfs-1846.zip?alt=media"
+
+  # DC Open Data bus stops — fallback if GTFS unavailable
+  # Has stop locations (BSTP_LAT, BSTP_LON) but no schedule/frequency data
+  bus_stops_api: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_Rail_Bus_WebMercator/MapServer/53/query"
+
+  # AADT = Average Annual Daily Traffic (vehicle volume counts).
+  # Using 2024 data — most recent year available (layer 5).
+  # Transportation_TrafficVolume service has one layer per year (2006–2024).
+  # Fields confirmed: AADT (integer), AADT_YEAR, ROUTEID
+  # Governance note: collected on ~annual HPMS reporting cycle.
+  # Do NOT use for real-time or peak-hour conditions.
+  aadt_api: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_TrafficVolume_WebMercator/MapServer/5/query"
